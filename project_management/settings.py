@@ -28,12 +28,14 @@ SECRET_KEY = 'django-insecure-m)6k5&ma&flof6uvgx2e5$!npvksejv36)1wtv&#tgqj4*wg0$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,7 +63,7 @@ AUTH_USER_MODEL="accounts.User"
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,7 +76,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project_management.wsgi.application'
+# WSGI_APPLICATION = 'project_management.wsgi.application'
+ASGI_APPLICATION = 'project_management.asgi.application'
 
 
 # Database
@@ -87,7 +90,6 @@ WSGI_APPLICATION = 'project_management.wsgi.application'
 #     }
 # }
 DATABASES = {
-    # default database user and credentials | others are added on runtime
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": os.getenv("DB_NAME"),
@@ -102,6 +104,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer",
+    }
 }
 
 
